@@ -27,6 +27,7 @@ import java.text.BreakIterator;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    ArrayList news = new ArrayList();
     ListView listview;
     String l1,l2,l3,l4,l5,l6,l7,l8,l9,l10;
 
@@ -49,22 +50,24 @@ public class MainActivity extends AppCompatActivity {
                         try {
 
                               final ArrayList arrayList = new ArrayList();
-                            final ArrayList arrayList1 = new ArrayList();
+                          //  final ArrayList arrayList1 = new ArrayList();
                             JSONObject a1 = new JSONObject(response);
                             JSONArray a2 = a1.getJSONArray("articles");
                             for (int e = 0;e<a2.length();e++) {
                                 JSONObject ob = a2.getJSONObject(e);
-                                String title1 = ob.getString("title");
+                              //  String title1 = ob.getString("title");
                                 String title = ob.getString("url");
-                                arrayList1.add(e,title1);
+                            //    arrayList1.add(e,title1);
                                 arrayList.add(e,title);
+                                news.add(new Newsclass(ob.getString("title")));
 
                             }
 
                             Context context = getApplicationContext();
 
-                            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,android.R.layout.preference_category,arrayList1);
-                            listview.setAdapter(arrayAdapter);
+                            //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,android.R.layout.preference_category,arrayList1);
+                            Custom_list_adapter custom_list_adapter = new Custom_list_adapter(getApplicationContext(),R.layout.custom_list_layout,news);
+                            listview.setAdapter(custom_list_adapter);
                             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
